@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
+
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 
@@ -10,6 +11,7 @@ router.get('/', (req, res) => {
   console.log('get req query',req.query)
   Users.find(req.query.table,req.query.where)
     .then(user => {
+      // console.log('user.rows',user.rows)
       res.status(200).json(user.rows);
     })
     .catch(error => {
@@ -65,6 +67,7 @@ Users.remove(req.query.table,req.query.where)
 
 ////////////////////////////////////////////////////////////////////////////
 router.post('/register/student', (req, res) => {
+
   console.log('post',req.body)
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 12); // 2 ^ n

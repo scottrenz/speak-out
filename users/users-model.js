@@ -13,7 +13,7 @@ module.exports = {
 function find(view,where) {
   console.log('where',where)
   console.log('select * from "'+view + '"' + (where ? ' where ' + where : '' ));
-  const rows= db.raw('select * from "'+view+ '"' + (where ? ' where ' + where : ''));
+  const rows= db.raw('select * from '+view+ '' + (where ? ' where ' + where : ''));
   return rows
 }
 
@@ -24,9 +24,9 @@ function makeWhere(body,conn) {
 let i=0
   for (let [key, value] of Object.entries(body)) {
     if(!i)
-    where = where + `${key} = '${value}'`
+    where = where + `${key} = ${ value === null ? value : "'"+value+"'"}`
     else
-    where = where  + ` ${conn} ${key} = '${value}'`
+    where = where  + ` ${conn} ${key} = ${ value === null ? value : "'"+value+"'"}`
     console.log(`${key}: ${value}`);
     i++
   }
@@ -41,6 +41,7 @@ function findBy(view,filter) {
 
 async function add(table,body) {
 let where = makeWhere(body)
+console.log('where variable',where)
   await db(table).insert(body);
 
  return findBy(table,where);
@@ -53,6 +54,7 @@ function findById(view,id) {
 }
 
 function remove(tab,whe) {
+console.log('delete from "'+tab+'" where '+whe)
   return  db.raw('delete from "'+tab+'" where '+whe)
    }
 

@@ -5,7 +5,7 @@ module.exports = {
     client: 'postgresql',
     connection: {
       port: process.env.DB_PORT,
-      host: "speakoutstaging.cswncgslisak.us-east-1.rds.amazonaws.com",
+      host: "speakoutawsdev.cdnyzw3hdv8h.us-east-2.rds.amazonaws.com",
       database: process.env.DB_DB,
       user: process.env.DB_USER,
       password: process.env.DB_PASS
